@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CineLog — Movie Finder & Watchlist (TMDB)</title>
+<meta name="description" content="Trending movies, search, genre filters, trailers and a local watchlist powered by the TMDB API. Bring your own free TMDB token — it never leaves your browser.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <h1>CineLog</h1>
+    <p class="tagline">Movie finder + watchlist, powered by TMDB. Your token, your browser, no server.</p>
+  </div>
+</header>
+
+<div id="offline-banner" class="offline-banner" role="alert" hidden>
+  You are offline. Your watchlist still works; browsing and search need a connection.
+</div>
+
+<main class="wrap">
+  <!-- First-run setup: shown until a token is saved -->
+  <section id="setup-panel" class="setup-panel" aria-label="TMDB token setup" hidden>
+    <h2>One-minute setup: your free TMDB token</h2>
+    <ol>
+      <li>Create a free account at <a href="https://www.themoviedb.org" target="_blank" rel="noopener">themoviedb.org</a>.</li>
+      <li>Open <b>Settings → API</b> and copy your <b>API Read Access Token</b> (the long one, not the API key).</li>
+      <li>Paste it below. It is stored only in this browser's localStorage and is sent only to TMDB as a Bearer token.</li>
+    </ol>
+    <label for="token-input">TMDB Read Access Token</label>
+    <div class="settings-row">
+      <input id="token-input" type="password" placeholder="eyJhbGciOi…" autocomplete="off">
+      <button id="token-save" class="btn" type="button">Save token & load movies</button>
+    </div>
+    <p id="setup-error" class="error-text" role="alert"></p>
+  </section>
+
+  <section id="app-panel" hidden>
+    <div class="controls" aria-label="Search and view controls">
+      <div class="search-row">
+        <label for="search-input">Search movies</label>
+        <input id="search-input" type="search" placeholder="e.g. Dune, Interstellar, Spirited Away" autocomplete="off">
+        <button id="clear-search" class="btn btn-secondary" type="button" hidden>Clear</button>
+      </div>
+      <div class="view-row">
+        <div class="view-toggle" role="group" aria-label="View">
+          <button id="view-all" class="btn btn-unit" type="button" aria-pressed="true">All movies</button>
+          <button id="view-watchlist" class="btn btn-unit" type="button" aria-pressed="false">My watchlist</button>
+        </div>
+        <button id="change-token" class="btn btn-secondary" type="button">Change token</button>
+      </div>
+      <div class="filter-block">
+        <span class="filter-label" id="genre-label">Filter by genre</span>
+        <div id="genre-chips" class="chip-row" role="group" aria-labelledby="genre-label"></div>
+      </div>
+    </div>
+
+    <h2 id="list-heading" class="list-heading">Trending this week</h2>
+    <div id="status-region" class="status-region" role="status" aria-live="polite"></div>
+    <div id="grid" class="grid"></div>
+    <div id="empty-state" class="state-box" hidden>
+      <h3 id="empty-title">No movies found</h3>
+      <p id="empty-text">Nothing matches. Try a different title or clear the genre filter.</p>
+      <button id="empty-reset" class="btn" type="button">Reset search and filters</button>
+    </div>
+    <div id="error-state" class="state-box state-error" hidden>
+      <h3>Something went wrong</h3>
+      <p id="error-text">The request failed.</p>
+      <button id="error-retry" class="btn" type="button">Try again</button>
+    </div>
+    <div id="scroll-sentinel" class="scroll-sentinel" aria-hidden="true"></div>
+    <p id="end-note" class="end-note" hidden>End of results.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+    <p>Data &amp; images: TMDB (<a href="https://www.themoviedb.org" target="_blank" rel="noopener">themoviedb.org</a>). Watchlists live only in your browser.</p>
+  </div>
+</footer>
+
+<div id="detail-overlay" class="overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+    <button id="detail-close" class="btn btn-secondary modal-close" type="button">Close</button>
+    <div id="detail-body"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
