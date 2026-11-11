@@ -48,6 +48,7 @@
           <button id="view-all" class="btn btn-unit" type="button" aria-pressed="true">All movies</button>
           <button id="view-watchlist" class="btn btn-unit" type="button" aria-pressed="false">My watchlist</button>
         </div>
+        <button id="sort-toggle" class="btn btn-secondary" type="button" aria-pressed="false" hidden>Sort: Top rated</button>
         <button id="change-token" class="btn btn-secondary" type="button">Change token</button>
       </div>
       <div class="filter-block">
@@ -73,6 +74,13 @@
     <p id="end-note" class="end-note" hidden>End of results.</p>
   </section>
 </main>
+
+<section class="wrap about-panel" aria-label="About this project">
+  <h2>About this project</h2>
+  <p>Every movie-app tutorial I found ships its TMDB token inside the JavaScript bundle — which means anyone who opens View Source owns that token. I did not want my name on that pattern, so CineLog inverts it: the app ships with no token at all, and each visitor pastes their own free TMDB token, which is validated, kept only in their browser, and sent only to TMDB. It costs the user one minute of setup and buys a clean conscience — and it forced me to design a proper first-run experience instead of an app that silently assumes credentials exist. The detail view is the other lesson: one request with cast and trailers appended, instead of three racing calls.</p>
+  <p>Part of a series of small, dependency-free apps I built against free public APIs to practise working within real rate limits and payload shapes.</p>
+  <p class="about-sign">— <a href="https://github.com/abduIwahid" target="_blank" rel="noopener">Abdul Wahid</a> · BS Artificial Intelligence, COMSATS University Islamabad (Attock Campus) · <a href="https://www.abdulwahid.me" target="_blank" rel="noopener">abdulwahid.me</a></p>
+</section>
 
 <footer class="site-footer">
   <div class="wrap">

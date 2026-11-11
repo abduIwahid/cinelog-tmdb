@@ -105,3 +105,7 @@ a { color: var(--accent-dark); }
   .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
   .modal { padding: 18px 14px; }
 }
+
+.about-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; margin: 26px auto 0; box-sizing: border-box; width: calc(100% - 32px); }
+.about-panel h2 { margin-top: 0; }
+.about-sign { color: var(--text-muted); margin-bottom: 0; }

@@ -1,5 +1,8 @@
 # CineLog — Movie Finder & Watchlist
 
+> Built by [Abdul Wahid](https://github.com/abduIwahid) — BS Artificial Intelligence student at COMSATS University Islamabad (Attock Campus). One of a series of dependency-free apps I built against free public APIs to practise real-world API constraints: rate limits, caching, and payload normalisation. More at [abdulwahid.me](https://www.abdulwahid.me).
+
+
 Trending movies, instant search, genre filters, detail views with cast and trailers, and a personal watchlist — all on the TMDB API, all in three static files. The defining design decision: **there is no API token in this project, on purpose.** Every visitor brings their own free TMDB token, which never leaves their browser.
 
 **Live demo:** _TBD — deploy pending owner decision (GitHub Pages or Vercel static)._
@@ -22,7 +25,7 @@ No token is hardcoded anywhere in this repository — check for yourself. A wron
 - **Genre filter chips** — built from TMDB's genre list; the list endpoint returns `genre_ids`, so a local id → name map resolves them on every card.
 - **Infinite scroll** — an `IntersectionObserver` sentinel loads the next page before you reach the bottom; it stops at `total_pages` (and at TMDB's hard page cap of 500).
 - **Detail modal** — overview, runtime, rating, top 5 cast, and an embedded YouTube trailer when TMDB has one — all from a single request (see below).
-- **Watchlist** — add/remove from any card or the detail view; stored in localStorage; a dedicated Watchlist view. Many-to-many by nature — user ↔ movie — modelled here as a local list of mapped movie objects keyed by TMDB id.
+- **Watchlist** — add/remove from any card or the detail view; stored in localStorage; a dedicated Watchlist view with genre filtering and a "Top rated" sort toggle. Many-to-many by nature — user ↔ movie — modelled here as a local list of mapped movie objects keyed by TMDB id.
 - **Missing posters** render as a titled placeholder block, never a broken image.
 - **Full UI states** — setup, skeleton grid, search/genre empty states, empty watchlist state, error with retry, offline banner.
 
