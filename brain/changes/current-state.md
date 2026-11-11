@@ -7,3 +7,4 @@
 **Verified:** app.js syntax (node --check); TMDB code paths verified by careful re-reading against the documented API contract (live calls are impossible without a token, and none may be fabricated/committed).
 
 **Pending:** owner's GitHub repo + deploy decision; first live run with the owner's own TMDB token (checklist in BUILD_PLAN Phase 3); README demo GIF after that; Phase 2 level-ups (/discover genre filtering, watch providers, backend watchlist).
+- 2026-11-10 (later): Watchlist Top-rated sort + genreIds mapper fix + first-person About shipped. Live verification still awaits the owner's own TMDB token (first-run checklist in BUILD_PLAN Phase 3). Next: hosting choice (Pages vs Vercel); /discover filtering remains Phase 2.

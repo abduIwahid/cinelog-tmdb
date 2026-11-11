@@ -24,6 +24,7 @@ const state = {
   totalPages: 1,
   loading: false,
   view: 'all',             // 'all' | 'watchlist'
+  sortTopRated: false,     // watchlist-only: order by TMDB rating, descending
   movies: [],              // mapped movies currently displayed (all view)
   listController: null,
 };
@@ -94,7 +95,9 @@ function mapMovie(raw) {
     title: raw.title || 'Untitled',
     year: raw.release_date ? raw.release_date.slice(0, 4) : '—',
     rating: typeof raw.vote_average === 'number' ? raw.vote_average.toFixed(1) : '—',
+    ratingNum: typeof raw.vote_average === 'number' ? raw.vote_average : 0,
     posterUrl: raw.poster_path ? IMG + raw.poster_path : null, // null -> placeholder block
+    genreIds: raw.genre_ids || [],
     genreNames: (raw.genre_ids || []).map((id) => state.genres.get(id)).filter(Boolean),
     overview: raw.overview || '',
   };
@@ -105,7 +108,9 @@ function mapMovieDetail(raw) {
     title: raw.title || 'Untitled',
     year: raw.release_date ? raw.release_date.slice(0, 4) : '—',
     rating: typeof raw.vote_average === 'number' ? raw.vote_average.toFixed(1) : '—',
+    ratingNum: typeof raw.vote_average === 'number' ? raw.vote_average : 0,
     posterUrl: raw.poster_path ? IMG + raw.poster_path : null,
+    genreIds: (raw.genres || []).map((g) => g.id),
     genreNames: (raw.genres || []).map((g) => g.name),
     overview: raw.overview || 'No overview available.',
   };
@@ -289,8 +294,11 @@ function renderWatchlist() {
     el.status.textContent = '';
     return;
   }
-  state.movies = list.slice();
-  appendCards(list);
+  const ordered = state.sortTopRated
+    ? list.slice().sort((a, b) => (b.ratingNum || 0) - (a.ratingNum || 0))
+    : list.slice();
+  state.movies = ordered;
+  appendCards(ordered);
   applyGenreVisibility();
   el.status.textContent = list.length + ' movie' + (list.length > 1 ? 's' : '') + ' in your watchlist.';
 }
@@ -403,6 +411,7 @@ function setView(view) {
   state.view = view;
   el.viewAll.setAttribute('aria-pressed', view === 'all' ? 'true' : 'false');
   el.viewWatchlist.setAttribute('aria-pressed', view === 'watchlist' ? 'true' : 'false');
+  document.getElementById('sort-toggle').hidden = view !== 'watchlist';
   if (view === 'watchlist') {
     el.heading.textContent = 'My watchlist';
     renderWatchlist();
@@ -411,6 +420,13 @@ function setView(view) {
     loadFirstPage();
   }
 }
+document.getElementById('sort-toggle').addEventListener('click', () => {
+  state.sortTopRated = !state.sortTopRated;
+  const btn = document.getElementById('sort-toggle');
+  btn.setAttribute('aria-pressed', state.sortTopRated ? 'true' : 'false');
+  btn.textContent = state.sortTopRated ? 'Sort: Top rated ✓' : 'Sort: Top rated';
+  renderWatchlist();
+});
 el.viewAll.addEventListener('click', () => setView('all'));
 el.viewWatchlist.addEventListener('click', () => setView('watchlist'));
 document.getElementById('detail-close').addEventListener('click', closeDetail);
